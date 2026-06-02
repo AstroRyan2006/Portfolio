@@ -26,6 +26,25 @@
             box-sizing: border-box;
         }
 
+        /* --- BOOT SCREEN CSS --- */
+        #boot-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            color: var(--text-color);
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+
+        .hidden { display: none !important; }
+
+        /* --- TERMINAL UI CSS --- */
         .terminal-container {
             width: 100%;
             max-width: 800px;
@@ -35,83 +54,22 @@
             background: #000;
         }
 
-        header, footer {
-            white-space: pre-wrap;
-            margin-bottom: 20px;
-            line-height: 1.3;
-        }
-
-        .instructions {
-            color: #fff;
-            margin: 15px 0;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .menu-list {
-            list-style: none;
-            padding: 0;
-            margin: 25px 0;
-        }
-
-        .menu-item {
-            padding: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: background 0.1s;
-            user-select: none;
-        }
-
-        .menu-item:hover, .menu-item.active {
-            background-color: var(--highlight-bg);
-            color: #fff;
-        }
-
-        .menu-item::before {
-            content: "    ";
-            white-space: pre;
-        }
-
-        .menu-item.active::before {
-            content: "--> ";
-        }
-
-        .content-display {
-            margin-top: 25px;
-            border-top: 1px dashed var(--dim-text);
-            padding-top: 20px;
-            min-height: 150px;
-            line-height: 1.5;
-        }
-
-        .hidden { display: none !important; }
-        
+        header, footer { white-space: pre-wrap; margin-bottom: 20px; line-height: 1.3; }
+        .instructions { color: #fff; margin: 15px 0; font-size: 0.9rem; text-transform: uppercase; }
+        .menu-list { list-style: none; padding: 0; margin: 25px 0; }
+        .menu-item { padding: 10px; cursor: pointer; display: flex; align-items: center; transition: background 0.1s; user-select: none; }
+        .menu-item:hover, .menu-item.active { background-color: var(--highlight-bg); color: #fff; }
+        .menu-item::before { content: "    "; white-space: pre; }
+        .menu-item.active::before { content: "--> "; }
+        .content-display { margin-top: 25px; border-top: 1px dashed var(--dim-text); padding-top: 20px; min-height: 150px; line-height: 1.5; }
         a { color: #fff; text-decoration: underline; }
-	/* Boot Screen Styling */
-        #boot-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 9999;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end; /* Pushes text to type from the bottom */
-            font-size: 0.9rem;
-            white-space: pre-wrap;
-        }
-
     </style>
 </head>
 <body>
+
 <div id="boot-screen"></div>
 
-    <div class="terminal-container hidden" id="main-ui">
-
-
-<div class="terminal-container">
+<div class="terminal-container hidden" id="main-ui">
     <header>======================================================================
                   RAYEN DAHMOUL - SYSTEM BOOT MENU                    
 ======================================================================</header>
@@ -132,12 +90,11 @@
 ======================================================================</footer>
 
     <div id="content-area" class="content-display">
-        <!-- Dynamic content loads here -->
-    </div>
+        </div>
 </div>
 
 <script>
-// === BOOT SEQUENCE LOGIC ===
+    // === 1. BOOT SEQUENCE LOGIC ===
     const bootLogs = [
         "INIT SYSLOG...",
         "LOADING KERNEL MODULES... [OK]",
@@ -153,27 +110,23 @@
 
     async function runBootSequence() {
         for (let i = 0; i < bootLogs.length; i++) {
-            // Create a new line for each log
             const line = document.createElement('div');
             line.textContent = bootLogs[i];
             bootScreen.appendChild(line);
             
-            // Random delay between 100ms and 400ms for realism
             const delay = Math.floor(Math.random() * 300) + 100;
             await new Promise(resolve => setTimeout(resolve, delay));
         }
 
-        // Final pause before showing the actual portfolio
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        // Hide boot screen, show main menu
         bootScreen.classList.add('hidden');
         mainUI.classList.remove('hidden');
     }
 
-    // Start the boot sequence when the page loads
     window.onload = runBootSequence;
-    // ===========================
+
+    // === 2. MENU LOGIC ===
     const data = {
         profile: `<strong>[PROFIL]</strong><br>Étudiant en Cybersécurité (ESGI). Autodidacte, passionné de systèmes critiques et architecture logicielle.<br><br><strong>[LANGUES]</strong><br>• Français: C2 // Anglais: C2 // Arabe: Maternelle`,
         cyber: `<strong>[SÉCURITÉ OFFENSIVE]</strong><br>• Tests d'intrusion (Web/API) & Reconnaissance OSINT.<br>• Identification de vulnérabilités critiques (OAuth2, Fuites de secrets).<br>• Profil actif sur plateformes de Bug Bounty (YesWeHack).`,
@@ -195,15 +148,12 @@
         currentIndex = index;
     }
 
-    // Initialize
     updateDisplay(0);
 
-    // Mouse Navigation
     items.forEach((item, index) => {
         item.addEventListener('click', () => updateDisplay(index));
     });
 
-    // Keyboard Navigation
     window.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowDown') {
             e.preventDefault();
@@ -225,3 +175,4 @@
 </script>
 </body>
 </html>
+
