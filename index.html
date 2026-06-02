@@ -137,6 +137,43 @@
 </div>
 
 <script>
+// === BOOT SEQUENCE LOGIC ===
+    const bootLogs = [
+        "INIT SYSLOG...",
+        "LOADING KERNEL MODULES... [OK]",
+        "MOUNTING ENCRYPTED VOLUMES... [OK]",
+        "ESTABLISHING SECURE CONNECTION...",
+        "VERIFYING RSA KEYS... [DONE]",
+        "BYPASSING MAINFRAME AUTHORIZATION... [SUCCESS]",
+        "INITIALIZING RAYEN_OS GUI..."
+    ];
+
+    const bootScreen = document.getElementById('boot-screen');
+    const mainUI = document.getElementById('main-ui');
+
+    async function runBootSequence() {
+        for (let i = 0; i < bootLogs.length; i++) {
+            // Create a new line for each log
+            const line = document.createElement('div');
+            line.textContent = bootLogs[i];
+            bootScreen.appendChild(line);
+            
+            // Random delay between 100ms and 400ms for realism
+            const delay = Math.floor(Math.random() * 300) + 100;
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+
+        // Final pause before showing the actual portfolio
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Hide boot screen, show main menu
+        bootScreen.classList.add('hidden');
+        mainUI.classList.remove('hidden');
+    }
+
+    // Start the boot sequence when the page loads
+    window.onload = runBootSequence;
+    // ===========================
     const data = {
         profile: `<strong>[PROFIL]</strong><br>Étudiant en Cybersécurité (ESGI). Autodidacte, passionné de systèmes critiques et architecture logicielle.<br><br><strong>[LANGUES]</strong><br>• Français: C2 // Anglais: C2 // Arabe: Maternelle`,
         cyber: `<strong>[SÉCURITÉ OFFENSIVE]</strong><br>• Tests d'intrusion (Web/API) & Reconnaissance OSINT.<br>• Identification de vulnérabilités critiques (OAuth2, Fuites de secrets).<br>• Profil actif sur plateformes de Bug Bounty (YesWeHack).`,
