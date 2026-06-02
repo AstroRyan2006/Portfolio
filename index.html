@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rayen Dahmoul - Boot Menu</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #4af626;
+            --dim-text: #278115;
+            --highlight-bg: #113311;
+            --font-stack: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-stack);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .terminal-container {
+            width: 100%;
+            max-width: 800px;
+            border: 2px solid var(--text-color);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(74, 246, 38, 0.2);
+            background: #000;
+        }
+
+        header, footer {
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .instructions {
+            color: #fff;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+
+        .menu-item {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background 0.1s;
+            user-select: none;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: var(--highlight-bg);
+            color: #fff;
+        }
+
+        .menu-item::before {
+            content: "    ";
+            white-space: pre;
+        }
+
+        .menu-item.active::before {
+            content: "--> ";
+        }
+
+        .content-display {
+            margin-top: 25px;
+            border-top: 1px dashed var(--dim-text);
+            padding-top: 20px;
+            min-height: 150px;
+            line-height: 1.5;
+        }
+
+        .hidden { display: none; }
+        
+        a { color: #fff; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="terminal-container">
+    <header>======================================================================
+                  RAYEN DAHMOUL - SYSTEM BOOT MENU                    
+======================================================================</header>
+
+    <div class="instructions">
+        [ Use Up/Down arrows + Enter, or simply CLICK an option ]
+    </div>
+
+    <ul class="menu-list" id="menu">
+        <li class="menu-item active" data-target="profile">1. BOOT_CORE_PROFILE ........ [Summary & Languages]</li>
+        <li class="menu-item" data-target="cyber">2. RUN_CYBER_AUDITS ......... [Offensive Sec & Bugs]</li>
+        <li class="menu-item" data-target="projects">3. LOAD_REPOSITORIES ........ [Python, Arduino, Dev]</li>
+        <li class="menu-item" data-target="resume">4. EXPORT_RESUME ............ [Download PDF Document]</li>
+    </ul>
+
+    <footer>======================================================================
+ STATUS: READY // PERMISSION: GUEST_USER // LOC: AIX-EN-PROVENCE
+======================================================================</footer>
+
+    <div id="content-area" class="content-display">
+        <!-- Dynamic content loads here -->
+    </div>
+</div>
+
+<script>
+    const data = {
+        profile: `<strong>[PROFIL]</strong><br>Étudiant en Cybersécurité (ESGI). Autodidacte, passionné de systèmes critiques et architecture logicielle.<br><br><strong>[LANGUES]</strong><br>• Français: C2 // Anglais: C2 // Arabe: Maternelle`,
+        cyber: `<strong>[SÉCURITÉ OFFENSIVE]</strong><br>• Tests d'intrusion (Web/API) & Reconnaissance OSINT.<br>• Identification de vulnérabilités critiques (OAuth2, Fuites de secrets)[cite: 1].<br>• Profil actif sur plateformes de Bug Bounty (YesWeHack)[cite: 1].`,
+        projects: `<strong>[DEVELOPPEMENT & INFRASTRUCTURE]</strong><br>• Python & Arduino (5 ans d'expérience pratique)[cite: 1].<br>• Gestion de bases de données SQL (2 ans)[cite: 1].<br>• Projets actifs : Systèmes cybernétiques autonomes, architectures de messagerie décentralisées et zero-knowledge.`,
+        resume: `<strong>[TÉLÉCHARGEMENT]</strong><br><br><a href="CV_Rayen_Dahmoul (1).pdf" download>Cliquez ici pour télécharger "CV_Rayen_Dahmoul (1).pdf"</a>[cite: 1]`
+    };
+
+    const menu = document.getElementById('menu');
+    const items = document.querySelectorAll('.menu-item');
+    const contentArea = document.getElementById('content-area');
+    let currentIndex = 0;
+
+    function updateDisplay(index) {
+        items.forEach((item, i) => {
+            item.classList.toggle('active', i === index);
+        });
+        const target = items[index].getAttribute('data-target');
+        contentArea.innerHTML = data[target];
+        currentIndex = index;
+    }
+
+    // Initialize
+    updateDisplay(0);
+
+    // Mouse Navigation
+    items.forEach((item, index) => {
+        item.addEventListener('click', () => updateDisplay(index));
+    });
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            let next = (currentIndex + 1) % items.length;
+            updateDisplay(next);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            let prev = (currentIndex - 1 + items.length) % items.length;
+            updateDisplay(prev);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            const currentTarget = items[currentIndex].getAttribute('data-target');
+            if (currentTarget === 'resume') {
+                const link = contentArea.querySelector('a');
+                if (link) link.click();
+            }
+        }
+    });
+</script>
+</body>
+</html>
