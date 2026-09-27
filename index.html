@@ -62,7 +62,36 @@
         .menu-item::before { content: "    "; white-space: pre; }
         .menu-item.active::before { content: "--> "; }
         .content-display { margin-top: 25px; border-top: 1px dashed var(--dim-text); padding-top: 20px; min-height: 150px; line-height: 1.5; }
-        a { color: #fff; text-decoration: underline; }
+        
+        /* Harmonisation des liens CLI */
+        a { 
+            color: var(--text-color); 
+            text-decoration: underline; 
+        }
+        a:hover { 
+            background-color: var(--text-color); 
+            color: #000; 
+            text-decoration: none; 
+        }
+
+        /* Cartes de certifications */
+        .badge-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px dashed var(--dim-text);
+            background: rgba(17, 51, 17, 0.15);
+        }
+        .badge-card img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            border-radius: 4px;
+            border: 1px solid var(--dim-text);
+            background: #051005;
+        }
     </style>
 </head>
 <body>
@@ -82,15 +111,15 @@
         <li class="menu-item active" data-target="profile">1. BOOT_CORE_PROFILE ........ [Summary & Languages]</li>
         <li class="menu-item" data-target="cyber">2. RUN_CYBER_AUDITS ......... [Offensive Sec & Bugs]</li>
         <li class="menu-item" data-target="projects">3. LOAD_REPOSITORIES ........ [Python, Arduino, Dev]</li>
-        <li class="menu-item" data-target="resume">4. EXPORT_RESUME ............ [Download PDF Document]</li>
+        <li class="menu-item" data-target="certificates">4. DOWNLOAD_CERTIFICATES .... [Certifications & Badges]</li>
+        <li class="menu-item" data-target="resume">5. EXPORT_RESUME ............ [Download PDF Document]</li>
     </ul>
 
     <footer>======================================================================
  STATUS: READY // PERMISSION: GUEST_USER // LOC: AIX-EN-PROVENCE
 ======================================================================</footer>
 
-    <div id="content-area" class="content-display">
-        </div>
+    <div id="content-area" class="content-display"></div>
 </div>
 
 <script>
@@ -128,9 +157,43 @@
 
     // === 2. MENU LOGIC ===
     const data = {
-        profile: `<strong>[PROFIL]</strong><br>Étudiant en Cybersécurité (ESGI). Autodidacte, passionné de systèmes critiques et architecture logicielle.<br><br><strong>[LANGUES]</strong><br>• Français: C2 // Anglais: C2 // Arabe: Maternelle`,
-        cyber: `<strong>[SÉCURITÉ OFFENSIVE]</strong><br>• Tests d'intrusion (Web/API) & Reconnaissance OSINT.<br>• Identification de vulnérabilités critiques (OAuth2, Fuites de secrets).<br>• Profil actif sur plateformes de Bug Bounty (YesWeHack).`,
-        projects: `<strong>[DEVELOPPEMENT & INFRASTRUCTURE]</strong><br>• Python & Arduino (5 ans d'expérience pratique).<br>• Gestion de bases de données SQL (2 ans).<br>• Projets actifs : Systèmes cybernétiques autonomes, architectures de messagerie décentralisées et zero-knowledge.`,
+        profile: `<strong>[PROFIL]</strong><br>Étudiant en informatique passionné par la cybersécurité et les systèmes critiques. Autodidacte et curieux, j'ai développé une pratique approfondie en Python et Arduino, me permettant de concevoir des solutions techniques efficaces et de détecter des failles de sécurité complexes.<br><br>Je recherche une alternance pour mettre mes compétences en audit et en développement au service de projets concrets.<br><br><strong>[LANGUES]</strong><br>• Français: C2 // Anglais: C1 (Certifié EF SET) // Arabe: Maternelle`,
+        
+        cyber: `<strong>[SÉCURITÉ OFFENSIVE]</strong><br>• Tests d'intrusion (Web/API) & Reconnaissance OSINT.<br>• Identification de vulnérabilités critiques (OAuth2, Fuites de secrets).<br>• Profil actif sur plateformes de Bug Bounty (<a href="https://yeswehack.com/hunters/astroryan2006" target="_blank">YesWeHack</a>).`,
+        
+        projects: `<strong>[DEVELOPPEMENT & INFRASTRUCTURE]</strong><br>• Python & Arduino (Pratique approfondie & prototypage).<br>• Gestion de bases de données SQL.<br>• Projets actifs : Systèmes cybernétiques autonomes, architectures de messagerie décentralisées et zero-knowledge.`,
+        
+        certificates: `<strong>[CERTIFICATIONS & ACCRÉDITATIONS]</strong>
+        
+        <div class="badge-card">
+            <img src="Badges/python-essentials-1.1.png" alt="Python Badge" onerror="this.style.display='none'">
+            <div>
+                <strong>• Cisco Networking Academy : Python Essentials 1</strong><br>
+                <span>Accès : </span>
+                <a href="Certificates/PythonEssentials1_rayen-dahmoul.pdf" download>[Télécharger le Certificat PDF]</a>
+            </div>
+        </div>
+
+        <div class="badge-card">
+            <img src="Badges/linux-unhatched.png" alt="Linux Badge" onerror="this.style.display='none'">
+            <div>
+                <strong>• Cisco & NDG : Linux Unhatched</strong><br>
+                <span>Accès : </span>
+                <a href="Certificates/Linux_Unhatched_certificate_rayen-dahmoul.pdf" download>[Télécharger le Certificat PDF]</a>
+            </div>
+        </div>
+
+        <div class="badge-card">
+            <img src="Certificates/EF_SET_Certificate.pdf" alt="EF SET Badge" onerror="this.style.display='none'">
+            <div>
+                <strong>• EF SET English Certificate : C1 Advanced (67/100)</strong><br>
+                <span>Accès : </span>
+                <a href="https://cert.efset.org/WMbdrh" target="_blank">[Consulter l'attestation en ligne]</a>
+                &nbsp;//&nbsp;
+                <a href="Certificates/EF_SET_Certificate.pdf" download>[Télécharger PDF]</a>
+                </div>
+        </div>`,
+        
         resume: `<strong>[TÉLÉCHARGEMENT]</strong><br><br><a href="cv_rayen_dahmoul.pdf" download>Cliquez ici pour télécharger "cv_rayen_dahmoul.pdf"</a>`
     };
 
@@ -175,4 +238,3 @@
 </script>
 </body>
 </html>
-
