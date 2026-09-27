@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rayen Dahmoul - Boot Menu</title>
+    <title>Rayen Dahmoul - Portfolio</title>
     <style>
         :root {
             --bg-color: #0a0a0a;
@@ -18,15 +18,46 @@
             color: var(--text-color);
             font-family: var(--font-stack);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 0;
             min-height: 100vh;
             box-sizing: border-box;
         }
 
-        /* --- BOOT SCREEN CSS --- */
+        .hidden { display: none !important; }
+
+        /* ================= BOUTON TOGGLE FIXE ================= */
+        #view-toggle {
+            position: fixed;
+            top: 14px;
+            right: 20px;
+            z-index: 10000;
+            background: #1f6feb;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+            transition: all 0.2s ease;
+        }
+        #view-toggle:hover {
+            background: #388bfd;
+            transform: translateY(-2px);
+        }
+
+        /* ================= VUE 1 : TERMINAL CLI ================= */
+        #cli-view {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            min-height: 100vh;
+        }
+
         #boot-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -42,16 +73,14 @@
             white-space: pre-wrap;
         }
 
-        .hidden { display: none !important; }
-
-        /* --- TERMINAL UI CSS --- */
         .terminal-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             border: 2px solid var(--text-color);
             padding: 20px;
             box-shadow: 0 0 15px rgba(74, 246, 38, 0.2);
             background: #000;
+            margin-top: 25px;
         }
 
         header, footer { white-space: pre-wrap; margin-bottom: 20px; line-height: 1.3; }
@@ -63,18 +92,9 @@
         .menu-item.active::before { content: "--> "; }
         .content-display { margin-top: 25px; border-top: 1px dashed var(--dim-text); padding-top: 20px; min-height: 150px; line-height: 1.5; }
         
-        /* Harmonisation des liens CLI */
-        a { 
-            color: var(--text-color); 
-            text-decoration: underline; 
-        }
-        a:hover { 
-            background-color: var(--text-color); 
-            color: #000; 
-            text-decoration: none; 
-        }
+        #cli-view a { color: var(--text-color); text-decoration: underline; }
+        #cli-view a:hover { background-color: var(--text-color); color: #000; text-decoration: none; }
 
-        /* Cartes de certifications */
         .badge-card {
             display: flex;
             align-items: center;
@@ -92,38 +112,470 @@
             border: 1px solid var(--dim-text);
             background: #051005;
         }
+        .badge-card .badge-icon-cli {
+            font-size: 2rem;
+            width: 65px;
+            text-align: center;
+        }
+
+        /* ================= VUE 2 : GUI MODERNE / RH ================= */
+        #gui-view {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Barre de navigation : Logo à gauche, Catégories bien centrées, Espace pour le bouton */
+        .gui-nav {
+            display: grid;
+            grid-template-columns: 220px 1fr 220px;
+            align-items: center;
+            padding: 16px 30px;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid #30363d;
+            z-index: 1000;
+        }
+
+        .gui-logo { font-size: 1.15rem; font-weight: 700; color: #f0f6fc; }
+        .gui-logo span { color: #58a6ff; }
+        
+        .gui-nav nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .gui-nav nav a {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .gui-nav nav a:hover { color: #58a6ff; }
+
+        .gui-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        .gui-hero { padding: 40px 0 50px; }
+        .status-pill {
+            display: inline-block;
+            background: rgba(46, 160, 67, 0.15);
+            color: #3fb950;
+            border: 1px solid rgba(46, 160, 67, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .gui-hero h1 { font-size: 2.5rem; color: #f0f6fc; margin: 0 0 10px; }
+        .gui-hero h2 { font-size: 1.25rem; color: #58a6ff; font-weight: 500; margin: 0 0 20px; }
+        .gui-hero p { font-size: 1.05rem; color: #8b949e; margin-bottom: 30px; }
+
+        .gui-btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-modern {
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-green { background: #238636; color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-green:hover { background: #2ea043; }
+        .btn-dark { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
+        .btn-dark:hover { background: #30363d; }
+
+        .gui-section {
+            padding: 40px 0;
+            border-top: 1px solid #21262d;
+        }
+        .gui-section h3 { font-size: 1.5rem; color: #f0f6fc; margin-bottom: 24px; }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 20px;
+        }
+        .gui-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .gui-card h4 { margin: 0 0 10px; color: #f0f6fc; font-size: 1.1rem; }
+        .gui-card p { margin: 0; font-size: 0.9rem; color: #8b949e; flex-grow: 1; }
+
+        .tag {
+            font-size: 11px;
+            color: #58a6ff;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .pill-container { margin-top: 14px; }
+        .pill {
+            display: inline-block;
+            background: #21262d;
+            color: #58a6ff;
+            border: 1px solid #30363d;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 4px;
+            margin-right: 4px;
+        }
+
+        /* Cartes de certification */
+        .cert-card-horizontal {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #3fb950;
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+        }
+        .cert-badge-img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 4px;
+            flex-shrink: 0;
+        }
+        .cert-details { flex: 1; }
+        .cert-details h4 { margin: 0 0 4px; color: #f0f6fc; font-size: 1.05rem; }
+        .cert-details p { margin: 0 0 8px; font-size: 0.88rem; color: #8b949e; }
+        .cert-links a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            margin-right: 15px;
+        }
+        .cert-links a:hover { text-decoration: underline; }
+
+        footer.gui-footer {
+            text-align: center;
+            padding: 35px;
+            border-top: 1px solid #21262d;
+            color: #484f58;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .gui-nav { grid-template-columns: 1fr; gap: 15px; padding: 15px 20px; }
+            .gui-nav nav { justify-content: flex-start; flex-wrap: wrap; gap: 15px; }
+            #view-toggle { top: 12px; right: 12px; padding: 6px 12px; font-size: 11px; }
+            .cert-card-horizontal { flex-direction: column; align-items: flex-start; }
+        }
     </style>
 </head>
 <body>
 
-<div id="boot-screen"></div>
+<!-- BOUTON D'INTERRUPTEUR FIXE -->
+<button id="view-toggle" onclick="toggleView()">
+    <span id="toggle-icon">👔</span> <span id="toggle-text">Mode Standard / RH</span>
+</button>
 
-<div class="terminal-container hidden" id="main-ui">
-    <header>======================================================================
+<!-- ========================================== -->
+<!-- 1. VUE TERMINAL (CLI)                      -->
+<!-- ========================================== -->
+<div id="cli-view">
+    <div id="boot-screen"></div>
+
+    <div class="terminal-container hidden" id="main-ui">
+        <header>======================================================================
                   RAYEN DAHMOUL - SYSTEM BOOT MENU                    
 ======================================================================</header>
 
-    <div class="instructions">
-        [ Use Up/Down arrows + Enter, or simply CLICK an option ]
-    </div>
+        <div class="instructions">
+            [ Use Up/Down arrows + Enter, or simply CLICK an option ]
+        </div>
 
-    <ul class="menu-list" id="menu">
-        <li class="menu-item active" data-target="profile">1. BOOT_CORE_PROFILE ........ [Summary & Languages]</li>
-        <li class="menu-item" data-target="cyber">2. RUN_CYBER_AUDITS ......... [Offensive Sec & Bugs]</li>
-        <li class="menu-item" data-target="projects">3. LOAD_REPOSITORIES ........ [Python, Arduino, Dev]</li>
-        <li class="menu-item" data-target="certificates">4. DOWNLOAD_CERTIFICATES .... [Certifications & Badges]</li>
-        <li class="menu-item" data-target="resume">5. EXPORT_RESUME ............ [Download PDF Document]</li>
-    </ul>
+        <ul class="menu-list" id="menu">
+            <li class="menu-item active" data-target="profile">1. BOOT_CORE_PROFILE ........ [Summary & Languages]</li>
+            <li class="menu-item" data-target="cyber">2. RUN_CYBER_AUDITS ......... [Offensive Sec & Bugs]</li>
+            <li class="menu-item" data-target="projects">3. LOAD_REPOSITORIES ........ [Web, Systems, Python]</li>
+            <li class="menu-item" data-target="certificates">4. DOWNLOAD_CERTIFICATES .... [Certifications & Badges]</li>
+            <li class="menu-item" data-target="resume">5. EXPORT_RESUME ............ [Download PDF Document]</li>
+        </ul>
 
-    <footer>======================================================================
+        <footer>======================================================================
  STATUS: READY // PERMISSION: GUEST_USER // LOC: AIX-EN-PROVENCE
 ======================================================================</footer>
 
-    <div id="content-area" class="content-display"></div>
+        <div id="content-area" class="content-display"></div>
+    </div>
 </div>
 
+<!-- ========================================== -->
+<!-- 2. VUE GRAPHIQUE MODERNE (POUR LES RH)      -->
+<!-- ========================================== -->
+<div id="gui-view" class="hidden">
+    <header class="gui-nav">
+        <div class="gui-logo">Rayen Dahmoul<span>_</span></div>
+        <nav>
+            <a href="#about">Profil</a>
+            <a href="#skills">Compétences</a>
+            <a href="#projects">Projets</a>
+            <a href="#certifications">Certifications</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div><!-- Espace équilibré pour le centrage parfait --></div>
+    </header>
+
+    <div class="gui-content">
+        <section id="about" class="gui-hero">
+            <div class="status-pill">🟢 Recherche active d'alternance · Aix-Marseille & Télétravail</div>
+            <h1>Rayen Dahmoul</h1>
+            <h2>Étudiant en Informatique & Sécurité Opérationnelle @ ESGI</h2>
+            <p>
+                Passionné par le développement back-end, l'architecture système, l'automatisation en Python et les réseaux. Autonome et rigoureux, je recherche une alternance pour mettre mes compétences en support, déploiement, bases de données et gestion d'infrastructures au service d'une équipe technique.
+            </p>
+            <div class="gui-btn-group">
+                <a href="cv_rayen_dahmoul.pdf" download class="btn-modern btn-green">📥 Télécharger mon CV (PDF)</a>
+                <a href="https://github.com/astroryan2006" target="_blank" class="btn-modern btn-dark">Profil GitHub</a>
+                <a href="https://www.linkedin.com/in/rayen-dahmoul-89b795297" target="_blank" class="btn-modern btn-dark">LinkedIn</a>
+            </div>
+        </section>
+
+        <!-- Section Compétences enrichie -->
+        <section id="skills" class="gui-section">
+            <h3>Compétences Techniques & Langages</h3>
+            <div class="grid-cards">
+                <div class="gui-card">
+                    <h4>💻 Langages de Programmation</h4>
+                    <p>Développement back-end, scripts et programmation bas niveau :</p>
+                    <div class="pill-container">
+                        <span class="pill">Python</span>
+                        <span class="pill">C / C++</span>
+                        <span class="pill">Bash / Shell</span>
+                        <span class="pill">SQL</span>
+                        <span class="pill">JavaScript</span>
+                        <span class="pill">HTML5 / CSS3</span>
+                    </div>
+                </div>
+                <div class="gui-card">
+                    <h4>⚙️ Systèmes, Web & BDD</h4>
+                    <p>Framework Flask, SQLAlchemy, migrations Alembic, bases PostgreSQL et Supabase. Nginx (proxy inverse) et serveurs Linux (Debian, Ubuntu).</p>
+                    <div class="pill-container">
+                        <span class="pill">Flask</span>
+                        <span class="pill">PostgreSQL</span>
+                        <span class="pill">Supabase</span>
+                        <span class="pill">Nginx</span>
+                    </div>
+                </div>
+                <div class="gui-card">
+                    <h4>🌐 Réseaux & Services</h4>
+                    <p>Protocoles TCP/IP, DNS, DHCP, gestion d'API tierces (Brevo, OpenWeatherMap, Pinata/IPFS) et analyse de flux réseau.</p>
+                    <div class="pill-container">
+                        <span class="pill">API REST</span>
+                        <span class="pill">Brevo</span>
+                        <span class="pill">Wireshark</span>
+                    </div>
+                </div>
+                <div class="gui-card">
+                    <h4>🛡️ Cybersécurité & Audits</h4>
+                    <p>Tests de sécurité web/API (OWASP Top 10), pratique Bug Bounty sur YesWeHack, gestion des secrets (.env) et durcissement système.</p>
+                    <div class="pill-container">
+                        <span class="pill">YesWeHack</span>
+                        <span class="pill">OWASP</span>
+                        <span class="pill">Hardening</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Projets réels -->
+        <section id="projects" class="gui-section">
+            <h3>Projets & Réalisations</h3>
+            <div class="grid-cards">
+                <div class="gui-card">
+                    <div>
+                        <div class="tag">Projet École · Validé Direction</div>
+                        <h4>Campus Request (Skolae)</h4>
+                        <p>Plateforme centralisée de gestion de requêtes et signalements pour le campus d'Aix. Système d'authentification complet, gestion des droits administratifs, intégration BDD PostgreSQL, migrations Alembic et routage d'emails transactionnels via Brevo.</p>
+                    </div>
+                    <div class="pill-container">
+                        <span class="pill">Python 3.13</span>
+                        <span class="pill">Flask</span>
+                        <span class="pill">PostgreSQL</span>
+                        <span class="pill">Brevo</span>
+                    </div>
+                </div>
+
+                <div class="gui-card">
+                    <div>
+                        <div class="tag">Projet Web & API</div>
+                        <h4>Météorite</h4>
+                        <p>Application web météo en temps réel connectée à une API externe. Authentification et gestion des comptes utilisateurs via Supabase, et envoi automatisé d'alertes météo programmées par e-mail.</p>
+                    </div>
+                    <div class="pill-container">
+                        <span class="pill">JavaScript</span>
+                        <span class="pill">Supabase</span>
+                        <span class="pill">API REST</span>
+                        <span class="pill">Vercel</span>
+                    </div>
+                </div>
+
+                <div class="gui-card">
+                    <div>
+                        <div class="tag">Réseau & Web Décentralisé</div>
+                        <h4>REDGRAM</h4>
+                        <p>Réseau social décentralisé conçu avec architecture proxy inverse sous Nginx et distribution décentralisée des contenus via IPFS et la passerelle Pinata.</p>
+                    </div>
+                    <div class="pill-container">
+                        <span class="pill">Nginx</span>
+                        <span class="pill">Pinata / IPFS</span>
+                        <span class="pill">P2P</span>
+                    </div>
+                </div>
+
+                <div class="gui-card">
+                    <div>
+                        <div class="tag">Simulation & Cybernétique</div>
+                        <h4>metahuman-matrix</h4>
+                        <p>Simulation bio-mécanique d'homéostasie en boucle fermée concurrente. Intègre régulation PID hydraulique et modélisation métabolique complexe.</p>
+                    </div>
+                    <div class="pill-container">
+                        <span class="pill">Python</span>
+                        <span class="pill">PID Control</span>
+                        <span class="pill">Simulation</span>
+                    </div>
+                </div>
+
+                <div class="gui-card">
+                    <div>
+                        <div class="tag">IA & Vision par Ordinateur</div>
+                        <h4>PosturePolice</h4>
+                        <p>Daemon d'arrière-plan analysant en temps réel la posture assise via flux vidéo pour alerter en cas de mauvaise ergonomie au poste de travail.</p>
+                    </div>
+                    <div class="pill-container">
+                        <span class="pill">Python</span>
+                        <span class="pill">Computer Vision</span>
+                        <span class="pill">Daemon</span>
+                    </div>
+                </div>
+
+                <div class="gui-card">
+                    <div>
+                        <div class="tag">Interface Système</div>
+                        <h4>Portfolio Rétro CLI & GUI</h4>
+                        <p>Double interface interactive : émulateur de terminal rétro en JS natif (séquence de boot, buffer clavier) et bascule dynamique vers une vue standard pour recruteurs.</p>
+                    </div>
+                    <div class="pill-container">
+                        <span class="pill">JavaScript</span>
+                        <span class="pill">UX Design</span>
+                        <span class="pill">GitHub Pages</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Certifications (EF SET sans badge externe) -->
+        <section id="certifications" class="gui-section">
+            <h3>Certifications Reconnues</h3>
+            
+            <div class="cert-card-horizontal">
+                <img src="Badges/python-essentials-1.1.png" alt="Python Badge" class="cert-badge-img" onerror="this.src='https://images.credly.com/size/340x340/images/223706e8-23ea-44a6-8e50-252f8be00f91/Python_Essentials_1.png'">
+                <div class="cert-details">
+                    <h4>Cisco Networking Academy : Python Essentials 1</h4>
+                    <p>Algorithmique avancée, structures de données, programmation orientée objet (POO) et modules.</p>
+                    <div class="cert-links">
+                        <a href="Certificates/PythonEssentials1_rayen-dahmoul.pdf" download>📥 Télécharger le Certificat (PDF)</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cert-card-horizontal">
+                <img src="Badges/linux-unhatched.png" alt="Linux Badge" class="cert-badge-img" onerror="this.src='https://images.credly.com/size/340x340/images/3a95a639-5e9a-40a2-a8c4-e8aa65ee5ebc/LinuxUnhatched.png'">
+                <div class="cert-details">
+                    <h4>Cisco & NDG : Linux Unhatched</h4>
+                    <p>Administration système Linux, manipulation du shell Bash, gestion des droits et arborescence.</p>
+                    <div class="cert-links">
+                        <a href="Certificates/Linux_Unhatched_certificate_rayen-dahmoul.pdf" download>📥 Télécharger le Certificat (PDF)</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EF SET : Pas de badge, affichage sobre et direct -->
+            <div class="cert-card-horizontal">
+                <div class="cert-details" style="padding-left: 5px;">
+                    <h4>🎓 EF SET English Certificate : C1 Advanced (Score : 67/100)</h4>
+                    <p>Aptitude professionnelle complète à travailler, documenter et échanger en environnement international.</p>
+                    <div class="cert-links">
+                        <a href="https://cert.efset.org/WMbdrh" target="_blank">🔗 Vérifier sur EF SET</a>
+                        <a href="Certificates/EF_SET_Certificate.pdf" download>📥 Télécharger l'attestation (PDF)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="gui-section" style="text-align: center;">
+            <h3>Prenons Contact</h3>
+            <p>Disponible immédiatement pour un entretien dans le cadre d'une alternance ou d'un contrat technique.</p>
+            <div class="gui-btn-group" style="justify-content: center; margin-top: 20px;">
+                <a href="mailto:rayen.dahmoul.8b8.g1@gmail.com" class="btn-modern btn-green">✉️ Me contacter par e-mail</a>
+                <a href="tel:+33641041339" class="btn-modern btn-dark">📞 06 41 04 13 39</a>
+            </div>
+        </section>
+    </div>
+
+    <footer class="gui-footer">
+        © 2026 Rayen Dahmoul · Hébergé sur GitHub Pages
+    </footer>
+</div>
+
+<!-- ========================================== -->
+<!-- SCRIPTS LOGIQUE TERMINAL & TOGGLE           -->
+<!-- ========================================== -->
 <script>
-    // === 1. BOOT SEQUENCE LOGIC ===
+    // === 1. FONCTION DE BASCULE CLI / GUI ===
+    function toggleView() {
+        const cliView = document.getElementById('cli-view');
+        const guiView = document.getElementById('gui-view');
+        const toggleIcon = document.getElementById('toggle-icon');
+        const toggleText = document.getElementById('toggle-text');
+
+        if (cliView.classList.contains('hidden')) {
+            cliView.classList.remove('hidden');
+            guiView.classList.add('hidden');
+            document.body.style.backgroundColor = 'var(--bg-color)';
+            toggleIcon.textContent = "👔";
+            toggleText.textContent = "Mode Standard / RH";
+        } else {
+            cliView.classList.add('hidden');
+            guiView.classList.remove('hidden');
+            document.body.style.backgroundColor = '#0d1117';
+            toggleIcon.textContent = ">_";
+            toggleText.textContent = "Mode Terminal (CLI)";
+        }
+    }
+
+    // === 2. BOOT SEQUENCE TERMINAL (AUTONOME & INSTANTANÉE) ===
     const bootLogs = [
         "INIT SYSLOG...",
         "LOADING KERNEL MODULES... [OK]",
@@ -138,35 +590,47 @@
     const mainUI = document.getElementById('main-ui');
 
     async function runBootSequence() {
+        if (!bootScreen || !mainUI) return;
+        
         for (let i = 0; i < bootLogs.length; i++) {
             const line = document.createElement('div');
             line.textContent = bootLogs[i];
             bootScreen.appendChild(line);
             
-            const delay = Math.floor(Math.random() * 300) + 100;
+            const delay = Math.floor(Math.random() * 200) + 80;
             await new Promise(resolve => setTimeout(resolve, delay));
         }
 
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 300));
         
         bootScreen.classList.add('hidden');
         mainUI.classList.remove('hidden');
     }
 
-    window.onload = runBootSequence;
+    // Démarrage dès que le DOM est prêt (évite l'écran noir)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runBootSequence);
+    } else {
+        runBootSequence();
+    }
 
-    // === 2. MENU LOGIC ===
+    // === 3. MENU CLI DATA ===
     const data = {
-        profile: `<strong>[PROFIL]</strong><br>Étudiant en informatique passionné par la cybersécurité et les systèmes critiques. Autodidacte et curieux, j'ai développé une pratique approfondie en Python et Arduino, me permettant de concevoir des solutions techniques efficaces et de détecter des failles de sécurité complexes.<br><br>Je recherche une alternance pour mettre mes compétences en audit et en développement au service de projets concrets.<br><br><strong>[LANGUES]</strong><br>• Français: C2 // Anglais: C1 (Certifié EF SET) // Arabe: Maternelle`,
+        profile: `<strong>[PROFIL]</strong><br>Étudiant en informatique passionné par la cybersécurité et les systèmes critiques. Autodidacte et curieux, j'ai développé une pratique approfondie en Python, Flask, PostgreSQL et architectures systèmes, me permettant de concevoir des solutions fiables et d'analyser des failles de sécurité.<br><br>Je recherche une alternance pour mettre mes compétences en développement, exploitation et administration au service de projets concrets.<br><br><strong>[LANGUES]</strong><br>• Français: C2 // Anglais: C1 (Certifié EF SET) // Arabe: Maternelle`,
         
-        cyber: `<strong>[SÉCURITÉ OFFENSIVE]</strong><br>• Tests d'intrusion (Web/API) & Reconnaissance OSINT.<br>• Identification de vulnérabilités critiques (OAuth2, Fuites de secrets).<br>• Profil actif sur plateformes de Bug Bounty (<a href="https://yeswehack.com/hunters/astroryan2006" target="_blank">YesWeHack</a>).`,
+        cyber: `<strong>[SÉCURITÉ OFFENSIVE]</strong><br>• Tests d'intrusion (Web/API) & Reconnaissance OSINT.<br>• Identification de vulnérabilités critiques (OAuth2, Fuites de secrets .env).<br>• Profil actif sur plateformes de Bug Bounty (<a href="https://yeswehack.com/hunters/astroryan2006" target="_blank">YesWeHack</a>).`,
         
-        projects: `<strong>[DEVELOPPEMENT & INFRASTRUCTURE]</strong><br>• Python & Arduino (Pratique approfondie & prototypage).<br>• Gestion de bases de données SQL.<br>• Projets actifs : Systèmes cybernétiques autonomes, architectures de messagerie décentralisées et zero-knowledge.`,
+        projects: `<strong>[PROJETS & ARCHITECTURES CLÉS]</strong><br><br>
+        • <strong>CAMPUS REQUEST (Skolae Aix) :</strong> Application web complète présentée à la direction pédagogique. Stack : Flask, Python 3.13, PostgreSQL, migrations Alembic, Brevo API.<br><br>
+        • <strong>MÉTÉORITE :</strong> Web app météo en direct avec comptes utilisateurs Supabase et alertes e-mail automatiques.<br><br>
+        • <strong>REDGRAM :</strong> Réseau social décentralisé avec reverse proxy Nginx et distribution IPFS / Pinata.<br><br>
+        • <strong>METAHUMAN-MATRIX :</strong> Simulation d'homéostasie bio-mécanique en Python avec régulation PID.<br><br>
+        • <strong>POSTUREPOLICE :</strong> Daemon d'analyse posturale par vision par ordinateur en temps réel.`,
         
         certificates: `<strong>[CERTIFICATIONS & ACCRÉDITATIONS]</strong>
         
         <div class="badge-card">
-            <img src="Badges/python-essentials-1.1.png" alt="Python Badge" onerror="this.style.display='none'">
+            <img src="Badges/python-essentials-1.1.png" alt="Python Badge" onerror="this.src='https://images.credly.com/size/340x340/images/223706e8-23ea-44a6-8e50-252f8be00f91/Python_Essentials_1.png'">
             <div>
                 <strong>• Cisco Networking Academy : Python Essentials 1</strong><br>
                 <span>Accès : </span>
@@ -175,7 +639,7 @@
         </div>
 
         <div class="badge-card">
-            <img src="Badges/linux-unhatched.png" alt="Linux Badge" onerror="this.style.display='none'">
+            <img src="Badges/linux-unhatched.png" alt="Linux Badge" onerror="this.src='https://images.credly.com/size/340x340/images/3a95a639-5e9a-40a2-a8c4-e8aa65ee5ebc/LinuxUnhatched.png'">
             <div>
                 <strong>• Cisco & NDG : Linux Unhatched</strong><br>
                 <span>Accès : </span>
@@ -184,14 +648,14 @@
         </div>
 
         <div class="badge-card">
-            <img src="Certificates/EF_SET_Certificate.pdf" alt="EF SET Badge" onerror="this.style.display='none'">
+            <div class="badge-icon-cli">🎓</div>
             <div>
                 <strong>• EF SET English Certificate : C1 Advanced (67/100)</strong><br>
                 <span>Accès : </span>
                 <a href="https://cert.efset.org/WMbdrh" target="_blank">[Consulter l'attestation en ligne]</a>
                 &nbsp;//&nbsp;
                 <a href="Certificates/EF_SET_Certificate.pdf" download>[Télécharger PDF]</a>
-                </div>
+            </div>
         </div>`,
         
         resume: `<strong>[TÉLÉCHARGEMENT]</strong><br><br><a href="cv_rayen_dahmoul.pdf" download>Cliquez ici pour télécharger "cv_rayen_dahmoul.pdf"</a>`
